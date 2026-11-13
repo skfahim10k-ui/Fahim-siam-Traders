@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Fahim Siam Traders</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6f4;color:#17231d;font-family:Arial,'Noto Sans Bengali',sans-serif;padding:12px}
+header{background:#0f5b41;color:white;padding:17px;border-radius:15px;margin-bottom:12px}h1{font-size:20px;margin:0 0 5px}.sub{font-size:12px;opacity:.8}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:white;border:1px solid #e0e8e2;border-radius:12px;padding:13px}.muted{color:#68776e;font-size:12px}.num{font-size:21px;font-weight:bold;margin-top:5px;overflow-wrap:anywhere}
+nav{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}.tab,button{border:0;border-radius:9px;padding:11px;background:#e1eee7;color:#104d38;font-weight:bold}.tab.active,.primary{background:#0f7652;color:white}
+section{background:white;border:1px solid #e0e8e2;border-radius:13px;padding:14px;margin-bottom:12px}section[hidden]{display:none}h2{font-size:17px;margin:0 0 12px}
+label{display:block;font-size:12px;color:#59675f;margin:9px 0}input,select{display:block;width:100%;padding:11px;border:1px solid #d7e1da;border-radius:8px;margin-top:5px;font-size:16px;background:white;color:#17231d}
+button{font-size:14px;cursor:pointer}.primary{width:100%;margin-top:8px}.row{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid #edf0ed;align-items:center}.small{font-size:12px;color:#68776e}.wide{width:100%}.warn{background:#fff0e8;color:#93451e}
+</style></head><body>
+<header><h1>🏪 Fahim Siam Traders</h1><div class="sub">Android Local Business Management</div><div class="sub" id="date"></div></header>
+<div class="cards">
+<div class="card"><div class="muted">মোট বিক্রি</div><div class="num" id="sales">৳০</div></div>
+<div class="card"><div class="muted">মোট খরচ</div><div class="num" id="expenses">৳০</div></div>
+<div class="card"><div class="muted">কাস্টমারের বাকি</div><div class="num" id="dues">৳০</div></div>
+<div class="card"><div class="muted">নিট ক্যাশ প্রবাহ</div><div class="num" id="cash">৳০</div></div>
+</div>
+<nav>
+<button class="tab active" data-tab="home">🏠 হোম</button><button class="tab" data-tab="sale">🛒 বিক্রি</button><button class="tab" data-tab="due">👥 বাকি</button><button class="tab" data-tab="products">📦 পণ্য</button><button class="tab" data-tab="expense">💸 খরচ</button><button class="tab" data-tab="report">📊 রিপোর্ট</button>
+</nav>
+<section id="home"><h2>আজকের হিসাব</h2><div class="cards"><div class="card"><div class="muted">আজকের বিক্রি</div><b id="todaySales">৳০</b></div><div class="card"><div class="muted">আজকের খরচ</div><b id="todayExpense">৳০</b></div></div><h2 style="margin-top:15px">সাম্প্রতিক লেনদেন</h2><div id="recent" class="small">এখনো কোনো লেনদেন নেই।</div></section>
+<section id="sale" hidden><h2>নতুন বিক্রি</h2><form id="saleForm">
+<label>কাস্টমারের নাম<input name="customer" placeholder="নাম (ঐচ্ছিক)"></label><label>পণ্যের নাম<input name="item" required></label>
+<div class="cards"><label>পরিমাণ<input name="qty" type="number" min=".01" step="any" value="1" required></label><label>একক দাম<input name="price" type="number" min="0" step="any" required></label></div>
+<label>জমা টাকা<input name="paid" type="number" min="0" step="any" value="0" required></label><div class="muted" id="total">মোট: ৳০</div><button class="primary">বিক্রি সংরক্ষণ</button></form></section>
+<section id="due" hidden><h2>কাস্টমারের বাকি আদায়</h2><form id="payForm"><label>কাস্টমারের নাম<input name="customer" required></label><label>জমার পরিমাণ<input name="amount" type="number" min=".01" step="any" required></label><button class="primary">জমা গ্রহণ</button></form><h2 style="margin-top:16px">বাকি তালিকা</h2><div id="dueList" class="small">কোনো বাকি নেই।</div></section>
+<section id="products" hidden><h2>পণ্য ও স্টক</h2><form id="productForm"><label>পণ্যের নাম<input name="name" required></label><div class="cards"><label>ক্রয় মূল্য<input name="buy" type="number" min="0" step="any" required></label><label>বিক্রয় মূল্য<input name="sell" type="number" min="0" step="any" required></label></div><label>স্টক<input name="stock" type="number" min="0" step="any" required></label><button class="primary">পণ্য যোগ করুন</button></form><h2 style="margin-top:16px">পণ্যের তালিকা</h2><div id="productList" class="small">পণ্য নেই।</div></section>
+<section id="expense" hidden><h2>নতুন খরচ</h2><form id="expenseForm"><label>খরচের বিবরণ<input name="detail" required></label><label>টাকার পরিমাণ<input name="amount" type="number" min=".01" step="any" required></label><button class="primary">খরচ সংরক্ষণ</button></form></section>
+<section id="report" hidden><h2>ব্যবসার রিপোর্ট</h2><div id="reportData"></div><button class="primary" id="csv">Excel-compatible CSV ডাউনলোড</button></section>
+<section><h2>ডেটা ব্যাকআপ</h2><div class="small">সব হিসাব এই Android অ্যাপের স্থানীয় স্টোরেজে থাকে। অ্যাপের ডেটা ক্লিয়ার বা আনইনস্টল করলে হিসাব মুছে যেতে পারে। নিয়মিত ব্যাকআপ নিন।</div><div class="cards" style="margin-top:10px"><button id="backup">JSON ব্যাকআপ</button><button id="restore">ব্যাকআপ ফেরত</button></div><input type="file" id="file" accept=".json" hidden><div id="status" class="small" style="margin-top:8px">Local storage সক্রিয়</div></section>
+<script>
+(()=> {
+const $=id=>document.getElementById(id),key='fst_android_local_v1';
+let db={sales:[],expenses:[],products:[],payments:[]};
+const money=n=>'৳'+Number(n||0).toLocaleString('en-BD',{maximumFractionDigits:2}),today=()=>new Date().toISOString().slice(0,10);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){try{localStorage.setItem(key,JSON.stringify(db));$('status').textContent='✓ ফোনে হিসাব সংরক্ষিত হয়েছে';render()}catch(e){alert('ডেটা সংরক্ষণ হয়নি। স্টোরেজ পরীক্ষা করুন।')}}
+function render(){
+let sales=db.sales.reduce((a,x)=>a+x.total,0),expenses=db.expenses.reduce((a,x)=>a+x.amount,0),dues=db.sales.reduce((a,x)=>a+x.due,0),paid=db.sales.reduce((a,x)=>a+x.paid,0)+db.payments.reduce((a,x)=>a+x.amount,0);
+$('sales').textContent=money(sales);$('expenses').textContent=money(expenses);$('dues').textContent=money(dues);$('cash').textContent=money(paid-expenses);
+$('todaySales').textContent=money(db.sales.filter(x=>x.date===today()).reduce((a,x)=>a+x.total,0));$('todayExpense').textContent=money(db.expenses.filter(x=>x.date===today()).reduce((a,x)=>a+x.amount,0));
+let entries=[...db.sales.map(x=>({...x,label:'বিক্রি: '+x.item,amount:x.total})),...db.expenses.map(x=>({...x,label:'খরচ: '+x.detail,amount:-x.amount})),...db.payments.map(x=>({...x,label:'বাকি জমা: '+x.customer,amount:x.amount}))].sort((a,b)=>b.time-a.time).slice(0,10);
+$('recent').innerHTML=entries.map(x=>`<div class="row"><span>${esc(x.label)}<br><span class="small">${x.date}</span></span><b>${money(x.amount)}</b></div>`).join('')||'এখনো কোনো লেনদেন নেই।';
+let customers={};db.sales.forEach(x=>{let n=x.customer.trim()||'নামহীন';customers[n]=(customers[n]||0)+x.due});db.payments.forEach(x=>customers[x.customer]=(customers[x.customer]||0)-x.amount);
+$('dueList').innerHTML=Object.entries(customers).filter(x=>x[1]>.001).map(([n,v])=>`<div class="row"><span>${esc(n)}</span><b>${money(v)}</b></div>`).join('')||'কোনো বাকি নেই।';
+$('productList').innerHTML=db.products.map((p,i)=>`<div class="row"><span><b>${esc(p.name)}</b><br><span class="small">ক্রয় ${money(p.buy)} · বিক্রি ${money(p.sell)} · স্টক ${p.stock}</span></span><button class="warn" data-del="${i}">মুছুন</button></div>`).join('')||'পণ্য নেই।';
+$('reportData').innerHTML=[['মোট বিক্রি',money(sales)],['মোট খরচ',money(expenses)],['মোট বাকি',money(dues)],['মোট আদায়',money(paid)],['নিট ক্যাশ প্রবাহ',money(paid-expenses)],['মোট পণ্য',db.products.length]].map(x=>`<div class="row"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('');
+}
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));['home','sale','due','products','expense','report'].forEach(id=>$(id).hidden=id!==b.dataset.tab)});
+const sf=$('saleForm'),calc=()=>{$('total').textContent='মোট: '+money((+sf.qty.value||0)*(+sf.price.value||0))};sf.qty.oninput=calc;sf.price.oninput=calc;
+sf.onsubmit=e=>{e.preventDefault();let f=new FormData(sf),total=+f.get('qty')*+f.get('price'),paid=+f.get('paid');if(paid>total)return alert('জমা মোট বিলের বেশি হতে পারবে না');db.sales.push({customer:f.get('customer').trim(),item:f.get('item'),qty:+f.get('qty'),price:+f.get('price'),total,paid,due:total-paid,date:today(),time:Date.now()});sf.reset();calc();save();alert('বিক্রি সংরক্ষিত হয়েছে')};
+$('payForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),customer=f.get('customer').trim(),amount=+f.get('amount'),due=db.sales.filter(x=>x.customer===customer).reduce((a,x)=>a+x.due,0)-db.payments.filter(x=>x.customer===customer).reduce((a,x)=>a+x.amount,0);if(amount>due+.001)return alert('এই কাস্টমারের বাকি '+money(Math.max(0,due)));db.payments.push({customer,amount,date:today(),time:Date.now()});e.target.reset();save();alert('জমা সংরক্ষিত হয়েছে')};
+$('expenseForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);db.expenses.push({detail:f.get('detail'),amount:+f.get('amount'),date:today(),time:Date.now()});e.target.reset();save();alert('খরচ সংরক্ষিত হয়েছে')};
+$('productForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);db.products.push({name:f.get('name'),buy:+f.get('buy'),sell:+f.get('sell'),stock:+f.get('stock')});e.target.reset();save();alert('পণ্য যোগ হয়েছে')};
+$('productList').onclick=e=>{let b=e.target.closest('[data-del]');if(b&&confirm('পণ্য মুছবেন?')){db.products.splice(+b.dataset.del,1);save()}};
+function dl(name,data,type){let a=document.createElement('a'),u=URL.createObjectURL(new Blob([data],{type}));a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500)}
+$('backup').onclick=()=>dl('Fahim-Siam-Backup.json',JSON.stringify(db,null,2),'application/json');$('restore').onclick=()=>$('file').click();
+$('file').onchange=async e=>{try{let d=JSON.parse(await e.target.files[0].text());if(!['sales','expenses','products','payments'].every(k=>Array.isArray(d[k])))throw 0;if(confirm('বর্তমান তথ্যের বদলে ব্যাকআপ বসাবেন?')){db=d;save();alert('ব্যাকআপ ফিরিয়ে আনা হয়েছে')}}catch(x){alert('ব্যাকআপ ফাইলটি সঠিক নয়')}e.target.value=''};
+$('csv').onclick=()=>{let rows=[['Type','Details','Customer','Date','Qty','Total','Paid','Due'],...db.sales.map(x=>['Sale',x.item,x.customer,x.date,x.qty,x.total,x.paid,x.due]),...db.expenses.map(x=>['Expense',x.detail,'',x.date,'',x.amount,'','']),...db.payments.map(x=>['Payment','Due collection',x.customer,x.date,'',x.amount,x.amount,''])];dl('Fahim-Siam-Report.csv','\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n'),'text/csv;charset=utf-8')};
+try{let old=JSON.parse(localStorage.getItem(key));if(old&&Array.isArray(old.sales))db={...db,...old}}catch(e){}
+$('date').textContent=new Date().toLocaleDateString('bn-BD',{weekday:'long',year:'numeric',month:'long',day:'numeric'});render();
+})();
+</script></body></html>
